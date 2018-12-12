@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import java.util.*
 
 class CadastroActivity : AppCompatActivity() {
     private lateinit var etHora: EditText
@@ -56,7 +57,15 @@ class CadastroActivity : AppCompatActivity() {
         val alarmMgr = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val broadcastIntent = Intent(this, AlarmBroadcastReceiver::class.java)
         val pIntent = PendingIntent.getBroadcast(this, 0 , broadcastIntent, 0)
-        alarmMgr.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+5000, pIntent)
+        alarmMgr.set(
+                AlarmManager.RTC_WAKEUP,
+                Calendar.getInstance().apply {
+                    set(Calendar.HOUR_OF_DAY, hora)
+                    set(Calendar.MINUTE, minuto)
+                    set(Calendar.SECOND, 0)
+                }.timeInMillis,
+                pIntent
+        )
     }
 }
 

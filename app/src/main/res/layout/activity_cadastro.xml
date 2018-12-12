@@ -6,10 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".FormActivity">
+    tools:context=".CadastroActivity">
 
     <TextView
-        android:text="Pomodoro"
+        android:text="Alarmoid"
         android:textSize="32sp"
         android:gravity="center"
         android:layout_weight="1"
@@ -40,23 +40,17 @@
             android:id="@+id/etFormHora"
             android:gravity="center"
             android:hint="Hora"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_weight="1"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <EditText
             android:id="@+id/etFormMinuto"
             android:gravity="center"
             android:hint="Minuto"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_weight="1"

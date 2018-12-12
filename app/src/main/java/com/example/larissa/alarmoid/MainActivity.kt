@@ -3,7 +3,6 @@ package com.example.larissa.alarmoid
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
@@ -26,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
 
         fab.setOnClickListener { view ->
-            val intent = Intent(this, FormActivity::class.java)
+            val intent = Intent(this, CadastroActivity::class.java)
             startActivityForResult(intent, 1)
         }
     }

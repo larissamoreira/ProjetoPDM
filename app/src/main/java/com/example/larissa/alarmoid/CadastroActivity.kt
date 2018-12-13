@@ -2,12 +2,15 @@ package com.example.larissa.alarmoid
 
 import android.app.Activity
 import android.app.AlarmManager
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.NotificationCompat
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -27,6 +30,7 @@ class CadastroActivity : AppCompatActivity() {
         this.etDescricao = findViewById(R.id.etFormDescricao)
         this.etHora = findViewById(R.id.etFormHora)
         this.etMinuto = findViewById(R.id.etFormMinuto)
+        this.btSalvar = findViewById(R.id.btFormSalvar)
 
         if(intent.getSerializableExtra("ATIVIDADE") != null) {
             this.atividade = intent.getSerializableExtra("ATIVIDADE") as Atividade
@@ -43,8 +47,8 @@ class CadastroActivity : AppCompatActivity() {
 
     private fun salvar(view: View) {
         val descricao = this.etDescricao.text.toString()
-        val hora = this.etHora.text as Int
-        val minuto = this.etMinuto.text as Int
+        val hora = Integer.parseInt(this.etHora.text.toString())
+        val minuto = Integer.parseInt(this.etMinuto.text.toString())
         this.atividade.descricao = descricao
         this.atividade.hora = hora
         this.atividade.minuto = minuto
@@ -66,11 +70,31 @@ class CadastroActivity : AppCompatActivity() {
                 }.timeInMillis,
                 pIntent
         )
+        finish()
     }
 }
 
 class AlarmBroadcastReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        Toast.makeText(context, "Teste", Toast.LENGTH_SHORT).show()
+
+
+        Toast.makeText(context, "Atividade agendada heim!", Toast.LENGTH_LONG).show()
+        // Create the notification to be shown
+        //var atv = intent!!.getSerializableExtra("ATIVIDADE") as Atividade
+
+        val mBuilder = NotificationCompat.Builder(context!!, "my_app")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Atividade para realizar")
+                .setContentText("Atividade ")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        // Get the Notification manager service
+        val am = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        // Generate an Id for each notification
+        val id = System.currentTimeMillis()/1000
+
+        // Show a notification
+        am.notify(id.toInt(), mBuilder.build())
     }
 }

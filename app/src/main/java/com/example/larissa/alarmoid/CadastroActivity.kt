@@ -82,7 +82,7 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
         // Create the notification to be shown
         //var atv = intent!!.getSerializableExtra("ATIVIDADE") as Atividade
 
-        val mBuilder = NotificationCompat.Builder(context!!, "my_app")
+        /*val mBuilder = NotificationCompat.Builder(context!!, "my_app")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Atividade para realizar")
                 .setContentText("Atividade ")
@@ -95,6 +95,6 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
         val id = System.currentTimeMillis()/1000
 
         // Show a notification
-        am.notify(id.toInt(), mBuilder.build())
+        am.notify(id.toInt(), mBuilder.build())*/
     }
 }

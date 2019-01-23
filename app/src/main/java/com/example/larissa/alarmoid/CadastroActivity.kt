@@ -1,12 +1,11 @@
 package com.example.larissa.alarmoid
 
-import android.app.Activity
-import android.app.AlarmManager
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.NotificationCompat
@@ -23,6 +22,8 @@ class CadastroActivity : AppCompatActivity() {
     private lateinit var btSalvar: Button
     private lateinit var atividade: Atividade
     private lateinit var etDescricao: EditText
+    private lateinit var alarmMgr: AlarmManager
+    private lateinit var pIntent: PendingIntent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +41,12 @@ class CadastroActivity : AppCompatActivity() {
         } else {
             this.atividade = Atividade()
         }
+        this.alarmMgr = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val broadcastIntent = Intent(this, AlarmBroadcastReceiver::class.java)
+        this.pIntent = PendingIntent.getBroadcast(this, 0 , broadcastIntent, 0)
+
 
         this.btSalvar.setOnClickListener({salvar(it)})
-
     }
 
     private fun salvar(view: View) {
@@ -53,14 +57,6 @@ class CadastroActivity : AppCompatActivity() {
         this.atividade.hora = hora
         this.atividade.minuto = minuto
 
-
-        val intent = Intent()
-        intent.putExtra("ATIVIDADE", this.atividade)
-        setResult(Activity.RESULT_OK, intent)
-
-        val alarmMgr = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val broadcastIntent = Intent(this, AlarmBroadcastReceiver::class.java)
-        val pIntent = PendingIntent.getBroadcast(this, 0 , broadcastIntent, 0)
         alarmMgr.set(
                 AlarmManager.RTC_WAKEUP,
                 Calendar.getInstance().apply {
@@ -70,6 +66,12 @@ class CadastroActivity : AppCompatActivity() {
                 }.timeInMillis,
                 pIntent
         )
+
+        Toast.makeText(this@CadastroActivity, "O alarme foi setado.", Toast.LENGTH_LONG).show()
+
+        val intent = Intent()
+        intent.putExtra("ATIVIDADE", this.atividade)
+        setResult(Activity.RESULT_OK, intent)
         finish()
     }
 }
@@ -77,15 +79,11 @@ class CadastroActivity : AppCompatActivity() {
 class AlarmBroadcastReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
 
-
-        Toast.makeText(context, "Atividade agendada heim!", Toast.LENGTH_LONG).show()
         // Create the notification to be shown
-        //var atv = intent!!.getSerializableExtra("ATIVIDADE") as Atividade
-
-        /*val mBuilder = NotificationCompat.Builder(context!!, "my_app")
+        val mBuilder = NotificationCompat.Builder(context!!)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Atividade para realizar")
-                .setContentText("Atividade ")
+                .setContentTitle("Alarm Manager")
+                .setContentText("Atividade")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         // Get the Notification manager service
@@ -95,6 +93,6 @@ class AlarmBroadcastReceiver: BroadcastReceiver() {
         val id = System.currentTimeMillis()/1000
 
         // Show a notification
-        am.notify(id.toInt(), mBuilder.build())*/
+        am.notify(id.toInt(), mBuilder.build())
     }
 }

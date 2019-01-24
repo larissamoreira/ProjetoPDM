@@ -41,7 +41,7 @@ class AtividadeAdapter(var context: Context): BaseAdapter() {
         if(position % 2 == 0){
             layout.setBackgroundColor(Color.WHITE)
         } else {
-            layout.setBackgroundColor(Color.YELLOW)
+            layout.setBackgroundColor(Color.GRAY)
         }
 
         val tvDescricao = layout.findViewById<TextView>(R.id.tvAtividadeDescricao)

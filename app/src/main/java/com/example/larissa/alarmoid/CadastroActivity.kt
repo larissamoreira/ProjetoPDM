@@ -45,7 +45,6 @@ class CadastroActivity : AppCompatActivity() {
         val broadcastIntent = Intent(this, AlarmBroadcastReceiver::class.java)
         this.pIntent = PendingIntent.getBroadcast(this, 0 , broadcastIntent, 0)
 
-
         this.btSalvar.setOnClickListener({salvar(it)})
     }
 
@@ -79,20 +78,16 @@ class CadastroActivity : AppCompatActivity() {
 class AlarmBroadcastReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
 
-        // Create the notification to be shown
         val mBuilder = NotificationCompat.Builder(context!!)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Alarm Manager")
                 .setContentText("Atividade")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        // Get the Notification manager service
         val am = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        // Generate an Id for each notification
         val id = System.currentTimeMillis()/1000
 
-        // Show a notification
         am.notify(id.toInt(), mBuilder.build())
     }
 }
